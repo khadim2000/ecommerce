@@ -1,0 +1,657 @@
+/* Font Awesome */
+@import '@fortawesome/fontawesome-free/css/all.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Variables CSS pour le système de design - Thème Vert Foncé Militaire */
+:root {
+  /* Vert militaire foncé - Palette principale */
+  --primary-50: #f0fdf4;
+  --primary-100: #dcfce7;
+  --primary-200: #bbf7d0;
+  --primary-300: #86efac;
+  --primary-400: #4ade80;
+  --primary-500: #22c55e;
+  --primary-600: #16a34a;
+  --primary-700: #15803d;
+  --primary-800: #166534;
+  --primary-900: #14532d;
+  --primary-950: #052e16;
+  
+  /* Vert foncé militaire - Palette principale */
+  --military-50: #f0f9f0;
+  --military-100: #dcf2dc;
+  --military-200: #b8e5b8;
+  --military-300: #8dd18d;
+  --military-400: #5bb85b;
+  --military-500: #3a9d3a;
+  --military-600: #2d7d2d;
+  --military-700: #256325;
+  --military-800: #1f4f1f;
+  --military-900: #1a3f1a;
+  --military-950: #0d1f0d;
+  
+  --secondary-50: #f8fafc;
+  --secondary-100: #f1f5f9;
+  --secondary-200: #e2e8f0;
+  --secondary-300: #cbd5e1;
+  --secondary-400: #94a3b8;
+  --secondary-500: #64748b;
+  --secondary-600: #475569;
+  --secondary-700: #334155;
+  --secondary-800: #1e293b;
+  --secondary-900: #0f172a;
+  
+  /* Vert foncé pour accent */
+  --accent-50: #f7fee7;
+  --accent-100: #ecfccb;
+  --accent-200: #d9f99d;
+  --accent-300: #bef264;
+  --accent-400: #a3e635;
+  --accent-500: #84cc16;
+  --accent-600: #65a30d;
+  --accent-700: #4d7c0f;
+  --accent-800: #3f6212;
+  --accent-900: #365314;
+  
+  --warning-50: #fffbeb;
+  --warning-100: #fef3c7;
+  --warning-200: #fde68a;
+  --warning-300: #fcd34d;
+  --warning-400: #fbbf24;
+  --warning-500: #f59e0b;
+  --warning-600: #d97706;
+  --warning-700: #b45309;
+  --warning-800: #92400e;
+  --warning-900: #78350f;
+  
+  /* Dégradés verts foncés cohérents */
+  --gradient-primary: linear-gradient(135deg, var(--military-600) 0%, var(--military-700) 100%);
+  --gradient-secondary: linear-gradient(135deg, var(--military-100) 0%, var(--military-200) 100%);
+  --gradient-hero: linear-gradient(135deg, var(--military-700) 0%, var(--military-800) 50%, var(--military-900) 100%);
+  --gradient-dark: linear-gradient(135deg, var(--military-800) 0%, var(--military-900) 100%);
+  --gradient-accent: linear-gradient(135deg, var(--military-500) 0%, var(--military-600) 100%);
+  --gradient-button: linear-gradient(135deg, var(--military-600) 0%, var(--military-700) 100%);
+  --gradient-card: linear-gradient(135deg, var(--military-50) 0%, var(--military-100) 100%);
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  
+  --border-radius-sm: 0.375rem;
+  --border-radius-md: 0.5rem;
+  --border-radius-lg: 0.75rem;
+  --border-radius-xl: 1rem;
+  --border-radius-2xl: 1.5rem;
+}
+
+/* Animations personnalisées */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+
+/* Classes utilitaires personnalisées */
+.animate-fade-in { animation: fadeIn 0.5s ease-out; }
+.animate-slide-in { animation: slideIn 0.5s ease-out; }
+.animate-scale-in { animation: scaleIn 0.3s ease-out; }
+.animate-pulse-hover:hover { animation: pulse 0.3s ease-in-out; }
+
+.glass-effect {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Composants de base */
+.btn {
+  @apply inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.btn-primary {
+  @apply btn text-white shadow-md hover:shadow-lg transform hover:-translate-y-0.5;
+  background: var(--gradient-button);
+  border: 1px solid var(--military-700);
+}
+
+.btn-primary:hover {
+  background: var(--gradient-dark);
+  border-color: var(--military-800);
+}
+
+.btn-secondary {
+  @apply btn shadow-sm hover:shadow-md;
+  background: var(--gradient-card);
+  color: var(--military-800);
+  border: 1px solid var(--military-300);
+}
+
+.btn-secondary:hover {
+  background: var(--military-100);
+  border-color: var(--military-400);
+}
+
+.btn-accent {
+  @apply btn text-white shadow-md hover:shadow-lg transform hover:-translate-y-0.5;
+  background: var(--gradient-accent);
+  border: 1px solid var(--military-600);
+}
+
+.btn-accent:hover {
+  background: var(--gradient-button);
+  border-color: var(--military-700);
+}
+
+/* Classes utilitaires pour le thème vert foncé */
+.bg-military-gradient {
+  background: var(--gradient-hero);
+}
+
+.bg-military-dark {
+  background: var(--gradient-dark);
+}
+
+.bg-military-card {
+  background: var(--gradient-card);
+}
+
+.text-military {
+  color: var(--military-800);
+}
+
+.text-military-light {
+  color: var(--military-600);
+}
+
+.border-military {
+  border-color: var(--military-300);
+}
+
+.border-military-dark {
+  border-color: var(--military-600);
+}
+
+/* Cartes de produits avec thème militaire */
+.product-card-military {
+  @apply bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden;
+  border: 1px solid var(--military-200);
+  background: var(--gradient-card);
+}
+
+.product-card-military:hover {
+  border-color: var(--military-400);
+  transform: translateY(-2px);
+}
+
+/* Badges militaires */
+.badge-military {
+  @apply px-3 py-1 rounded-full text-sm font-medium;
+  background: var(--gradient-accent);
+  color: white;
+  border: 1px solid var(--military-600);
+}
+
+.badge-military-secondary {
+  @apply px-3 py-1 rounded-full text-sm font-medium;
+  background: var(--gradient-card);
+  color: var(--military-800);
+  border: 1px solid var(--military-300);
+}
+
+/* Inputs avec thème militaire */
+.input-military {
+  @apply w-full px-4 py-3 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  background: var(--gradient-card);
+  border-color: var(--military-300);
+  color: var(--military-800);
+}
+
+.input-military:focus {
+  border-color: var(--military-500);
+  ring-color: var(--military-400);
+  background: white;
+}
+
+/* Header militaire */
+.header-military {
+  background: var(--gradient-hero);
+  border-bottom: 2px solid var(--military-700);
+}
+
+/* Navigation militaire */
+.nav-military {
+  background: var(--gradient-dark);
+  border-bottom: 1px solid var(--military-600);
+}
+
+/* Boutons d'action militaires */
+.btn-military-action {
+  @apply inline-flex items-center justify-center px-6 py-3 text-sm font-bold rounded-full transition-all duration-200 transform hover:scale-105 shadow-lg;
+  background: var(--gradient-button);
+  color: white;
+  border: 1px solid var(--military-700);
+}
+
+.btn-military-action:hover {
+  background: var(--gradient-dark);
+  border-color: var(--military-800);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card {
+  @apply bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100;
+}
+
+.card-hover {
+  @apply card transform hover:-translate-y-1 hover:scale-[1.02];
+}
+
+.input-field {
+  @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-white;
+}
+
+.badge {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.badge-primary {
+  @apply badge bg-green-100 text-green-800;
+}
+
+.badge-secondary {
+  @apply badge bg-gray-100 text-gray-800;
+}
+
+.badge-accent {
+  @apply badge bg-red-100 text-red-800;
+}
+
+.badge-warning {
+  @apply badge bg-yellow-100 text-yellow-800;
+}
+
+/* Styles pour les modales */
+.modal-overlay {
+  @apply fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4;
+}
+
+.modal-content {
+  @apply bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-auto shadow-2xl;
+}
+
+/* Styles pour les transitions */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+
+.slide-enter-active, .slide-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slide-enter-from {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.slide-leave-to {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+/* Styles responsive et améliorations mobiles */
+@media (max-width: 768px) {
+  .btn {
+    @apply px-3 py-2 text-sm min-h-[44px] touch-manipulation;
+  }
+  
+  .card {
+    @apply rounded-lg;
+  }
+  
+  .modal-content {
+    @apply rounded-lg mx-4 max-h-[85vh];
+  }
+  
+  .input-field {
+    @apply text-base min-h-[44px];
+  }
+  
+  /* Amélioration des zones tactiles */
+  button, a, [role="button"] {
+    @apply min-h-[44px] min-w-[44px] touch-manipulation;
+  }
+  
+  /* Espacement amélioré pour mobile */
+  .container {
+    @apply px-4;
+  }
+  
+  /* Grille responsive pour les produits */
+  .product-grid {
+    @apply grid-cols-1 gap-4;
+  }
+  
+  /* Navigation mobile */
+  .mobile-nav {
+    @apply fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50;
+  }
+  
+  /* Amélioration des dropdowns sur mobile */
+  .dropdown-mobile {
+    @apply fixed inset-x-0 bottom-0 bg-white rounded-t-2xl shadow-xl transform translate-y-0;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn {
+    @apply px-2 py-2 text-sm;
+  }
+  
+  .modal-content {
+    @apply mx-2 max-h-[90vh];
+  }
+  
+  /* Typography mobile */
+  .text-responsive-lg {
+    @apply text-xl;
+  }
+  
+  .text-responsive-xl {
+    @apply text-2xl;
+  }
+  
+  /* Espacement réduit pour très petits écrans */
+  .space-mobile-sm > * + * {
+    @apply ml-2;
+  }
+}
+
+/* Améliorations pour les appareils tactiles */
+@media (hover: none) and (pointer: coarse) {
+  /* Désactive les effets hover sur les appareils tactiles */
+  .hover-touch-disabled:hover {
+    @apply transform-none shadow-md;
+  }
+  
+  /* Augmente la taille des éléments interactifs */
+  .touch-target {
+    @apply min-h-[48px] min-w-[48px];
+  }
+  
+  /* Améliore la lisibilité */
+  body {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+}
+
+/* Support pour les préférences d'accessibilité */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Mode sombre (préparation) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #1f2937;
+    --bg-secondary: #374151;
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+  }
+}
+
+/* Améliorations pour l'impression */
+@media print {
+  .no-print {
+    @apply hidden;
+  }
+  
+  .print-friendly {
+    @apply bg-white text-black shadow-none;
+  }
+  
+  a::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+}
+
+/* Styles pour les animations de chargement */
+.skeleton {
+  @apply bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200;
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeleton-text {
+  @apply skeleton h-4 rounded;
+}
+
+.skeleton-avatar {
+  @apply skeleton w-12 h-12 rounded-full;
+}
+
+.skeleton-card {
+  @apply skeleton h-48 rounded-lg;
+}
+
+/* Styles pour les notifications push */
+.notification-badge {
+  @apply absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-pulse;
+}
+
+/* Améliorations pour le focus clavier */
+.focus-visible:focus-visible {
+  @apply outline-none ring-2 ring-green-500 ring-offset-2;
+}
+
+/* Styles pour les états de chargement */
+.loading-overlay {
+  @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50;
+}
+
+.loading-dots::after {
+  content: '';
+  animation: loading-dots 1.4s infinite both;
+}
+
+@keyframes loading-dots {
+  0%, 80%, 100% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+/* Styles pour les erreurs de connexion */
+.offline-indicator {
+  @apply fixed top-0 left-0 right-0 bg-red-600 text-white text-center py-2 text-sm z-50;
+  transform: translateY(-100%);
+  transition: transform 0.3s ease;
+}
+
+.offline-indicator.show {
+  transform: translateY(0);
+}
+
+/* Scrollbar personnalisée */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, var(--primary-700), var(--primary-800));
+}
+
+/* Styles E-commerce - Style Temu/Shein */
+.discount-badge {
+  @apply absolute -top-2 -right-2 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg animate-pulse;
+  z-index: 10;
+}
+
+.flash-sale-badge {
+  @apply bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg;
+  animation: flash-glow 2s infinite;
+}
+
+.limited-time-badge {
+  @apply bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-bold px-2 py-1 rounded shadow-lg;
+  animation: bounce-soft 2s infinite;
+}
+
+.price-original {
+  @apply text-gray-500 line-through text-sm;
+}
+
+.price-discount {
+  @apply text-red-600 font-bold text-lg;
+}
+
+.savings-badge {
+  @apply bg-green-500 text-white text-xs px-2 py-1 rounded-full font-bold;
+}
+
+.hot-deal-card {
+  @apply relative overflow-hidden;
+  background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+  background-size: 400% 400%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+.temu-button {
+  @apply bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition-all duration-200 hover:scale-105;
+}
+
+.shein-button {
+  @apply bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition-all duration-200 hover:scale-105;
+}
+
+.product-card-ecommerce {
+  @apply bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden relative;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.product-card-ecommerce:hover {
+  border-color: #ff6b6b;
+  transform: translateY(-2px);
+}
+
+.countdown-timer {
+  @apply bg-black text-white px-2 py-1 rounded text-xs font-mono;
+  animation: pulse-red 1s infinite;
+}
+
+@keyframes flash-glow {
+  0%, 100% { box-shadow: 0 0 5px #ff4444; }
+  50% { box-shadow: 0 0 20px #ff4444, 0 0 30px #ff4444; }
+}
+
+@keyframes bounce-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulse-red {
+  0%, 100% { background-color: #000; }
+  50% { background-color: #dc2626; }
+}
+
+/* Styles pour les éléments de focus */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2;
+}
+
+/* Styles pour améliorer la visibilité du logo ARME BI */
+.text-shadow-lg {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Force recompilation */
+.force-recompile {
+  display: none;
+}
+
+.text-shadow-md {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.text-shadow-xl {
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+}
+
+/* Effet de brillance pour le logo */
+.logo-glow {
+  filter: brightness(1.3) contrast(1.2) drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+}
+
+/* Animation de pulsation pour attirer l'attention */
+@keyframes logo-pulse {
+  0%, 100% { 
+    transform: scale(1);
+    filter: brightness(1.2) contrast(1.1);
+  }
+  50% { 
+    transform: scale(1.05);
+    filter: brightness(1.4) contrast(1.3);
+  }
+}
+
+.logo-pulse {
+  animation: logo-pulse 3s ease-in-out infinite;
+}

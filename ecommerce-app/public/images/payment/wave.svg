@@ -1,0 +1,36 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fond bleu Wave authentique -->
+  <defs>
+    <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00A8E8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0077B6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="40" height="40" rx="20" fill="url(#waveGrad)"/>
+  
+  <!-- Pingouin Wave authentique -->
+  <!-- Corps du pingouin -->
+  <ellipse cx="20" cy="22" rx="8" ry="10" fill="black"/>
+  <ellipse cx="20" cy="18" rx="6" ry="8" fill="white"/>
+  
+  <!-- Tête du pingouin -->
+  <circle cx="20" cy="12" r="6" fill="black"/>
+  <circle cx="20" cy="10" r="4" fill="white"/>
+  
+  <!-- Yeux -->
+  <circle cx="18" cy="10" r="1" fill="black"/>
+  <circle cx="22" cy="10" r="1" fill="black"/>
+  
+  <!-- Bec -->
+  <polygon points="20,12 18,14 22,14" fill="#FF6600"/>
+  
+  <!-- Aile qui salue -->
+  <ellipse cx="26" cy="18" rx="3" ry="5" fill="black" transform="rotate(15 26 18)"/>
+  
+  <!-- Pieds -->
+  <ellipse cx="18" cy="30" rx="2" ry="1" fill="#FF6600"/>
+  <ellipse cx="22" cy="30" rx="2" ry="1" fill="#FF6600"/>
+  
+  <!-- Texte Wave -->
+  <text x="20" y="36" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="6" font-weight="bold">wave</text>
+</svg>

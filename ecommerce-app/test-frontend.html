@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Frontend PayTech</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .test { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        button { padding: 10px 20px; margin: 10px 0; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 3px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Test Frontend PayTech Integration</h1>
+    
+    <div class="test">
+        <h2>1. Test Serveur Laravel</h2>
+        <button onclick="testServer()">Tester le serveur</button>
+        <div id="server-result"></div>
+    </div>
+
+    <div class="test">
+        <h2>2. Test Authentification</h2>
+        <button onclick="testAuth()">Tester l'auth</button>
+        <div id="auth-result"></div>
+    </div>
+
+    <div class="test">
+        <h2>3. Test Panier</h2>
+        <button onclick="testCart()">Tester le panier</button>
+        <div id="cart-result"></div>
+    </div>
+
+    <div class="test">
+        <h2>4. Test Checkout</h2>
+        <button onclick="testCheckout()">Tester le checkout</button>
+        <div id="checkout-result"></div>
+    </div>
+
+    <script>
+        const baseUrl = 'http://127.0.0.1:8001';
+        
+        async function testServer() {
+            const result = document.getElementById('server-result');
+            try {
+                const response = await fetch(baseUrl);
+                if (response.ok) {
+                    result.innerHTML = '<div class="success">✅ Serveur Laravel accessible</div>';
+                } else {
+                    result.innerHTML = '<div class="error">❌ Erreur serveur: ' + response.status + '</div>';
+                }
+            } catch (error) {
+                result.innerHTML = '<div class="error">❌ Erreur de connexion: ' + error.message + '</div>';
+            }
+        }
+
+        async function testAuth() {
+            const result = document.getElementById('auth-result');
+            try {
+                const response = await fetch(baseUrl + '/test-auth');
+                const data = await response.json();
+                result.innerHTML = '<div class="success">✅ Auth testé: ' + JSON.stringify(data, null, 2) + '</div>';
+            } catch (error) {
+                result.innerHTML = '<div class="error">❌ Erreur auth: ' + error.message + '</div>';
+            }
+        }
+
+        async function testCart() {
+            const result = document.getElementById('cart-result');
+            try {
+                const response = await fetch(baseUrl + '/api/cart');
+                const data = await response.json();
+                result.innerHTML = '<div class="success">✅ Panier testé: ' + JSON.stringify(data, null, 2) + '</div>';
+            } catch (error) {
+                result.innerHTML = '<div class="error">❌ Erreur panier: ' + error.message + '</div>';
+            }
+        }
+
+        async function testCheckout() {
+            const result = document.getElementById('checkout-result');
+            try {
+                const response = await fetch(baseUrl + '/checkout/order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        address: '123 Rue Test, Dakar',
+                        phone: '+221771234567',
+                        payment_method: 'orange_money'
+                    })
+                });
+                
+                if (response.ok) {
+                    result.innerHTML = '<div class="success">✅ Checkout testé avec succès</div>';
+                } else {
+                    const error = await response.text();
+                    result.innerHTML = '<div class="error">❌ Erreur checkout: ' + error + '</div>';
+                }
+            } catch (error) {
+                result.innerHTML = '<div class="error">❌ Erreur checkout: ' + error.message + '</div>';
+            }
+        }
+    </script>
+</body>
+</html>
+
+
