@@ -16,9 +16,14 @@
               />
             </div>
           </div>
-          <div class="text-white">
-            <h1 class="text-3xl font-black tracking-wide drop-shadow-2xl text-shadow-lg">ARME BI</h1>
-            <p class="text-base text-green-50 font-bold drop-shadow-lg text-shadow-md">ONLINE SHOP</p>
+              <div class="m-0 p-0">
+         <h1 class="text-3xl font-black tracking-wide drop-shadow-2xl text-shadow-lg text-left">
+  <span class="text-green-500">SUN</span>
+  <span class="text-yellow-500">UY</span>
+  <span class="text-red-500">EUF</span>
+</h1>
+
+            <p class="text-base text-green-50 font-bold drop-shadow-lg text-shadow-md">NIOKO MOOM</p>
           </div>
         </div>
 
