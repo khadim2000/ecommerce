@@ -8,6 +8,7 @@
         <!-- Logo ARME BI -->
         <div class="flex items-center space-x-3 flex-shrink-0 animate-slide-in">
           <div class="logo-container flex items-center justify-center">
+            <!--
             <div class="relative">
               <img 
                 src="/images/logo.png" 
@@ -15,6 +16,7 @@
                 class="h-24 w-auto object-contain drop-shadow-2xl logo-glow logo-pulse"
               />
             </div>
+            -->
           </div>
               <div class="m-0 p-0">
          <h1 class="text-3xl font-black tracking-wide drop-shadow-2xl text-shadow-lg text-left">
@@ -133,11 +135,13 @@
     </div>
   </header>
   
-
   
+
   <!-- Gestionnaire de token CSRF -->
   <CsrfTokenManager />
   
+  <!-- Panier flottant -->
+  <FloatingCart />
 </template>
 
 <script setup>

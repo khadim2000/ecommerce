@@ -14,7 +14,8 @@
           </h2>
           <button 
             @click="closeModal"
-            class="text-gray-400 hover:text-gray-600 transition-colors"
+            class="text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            aria-label="Fermer"
           >
             <i class="fas fa-times text-xl"></i>
           </button>
@@ -55,7 +56,7 @@
               <!-- Nom et prix -->
               <div>
                 <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ product.name }}</h1>
-                <div class="text-4xl font-bold text-green-600 mb-4">{{ product.price }}€</div>
+                <div class="text-4xl font-bold text-green-600 mb-4">{{ formatPrice(product.price) }}</div>
               </div>
 
               <!-- Description -->
@@ -79,7 +80,7 @@
                   <div 
                     v-for="color in product.colors" 
                     :key="color.id"
-                    class="flex items-center space-x-2 p-3 border border-gray-200 rounded-lg hover:border-green-300 transition-colors cursor-pointer"
+                    class="flex items-center space-x-2 p-3 border border-gray-200 rounded-lg hover:border-green-300 transition-colors duration-200 cursor-pointer"
                     :class="{ 'border-green-500 bg-green-50': selectedColor?.id === color.id }"
                     @click="selectedColor = color"
                   >
@@ -100,9 +101,12 @@
                     v-for="size in product.size"
                     :key="size"
                     @click="selectedSize = size"
-                    :class="selectedSize === size 
-                      ? 'px-4 py-2 border rounded-lg text-sm font-medium transition-colors bg-green-600 text-white border-green-600'
-                      : 'px-4 py-2 border rounded-lg text-sm font-medium transition-colors bg-white text-gray-700 border-gray-300 hover:border-green-300'"
+                    :class="[
+                      'px-4 py-2 border rounded-lg text-sm font-medium transition-colors duration-200',
+                      selectedSize === size 
+                        ? 'bg-green-600 text-white border-green-600' 
+                        : 'bg-white text-gray-700 border-gray-300 hover:border-green-300'
+                    ]"
                   >
                     {{ size }}
                   </button>
@@ -117,15 +121,17 @@
                     <button 
                       @click="decreaseQuantity"
                       :disabled="quantity <= 1"
-                      class="px-3 py-2 text-gray-600 hover:text-green-600 disabled:text-gray-400 disabled:cursor-not-allowed"
+                      class="px-3 py-2 text-gray-600 hover:text-green-600 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors duration-200"
+                      aria-label="Réduire la quantité"
                     >
                       <i class="fas fa-minus"></i>
                     </button>
-                    <span class="px-4 py-2 text-lg font-medium">{{ quantity }}</span>
+                    <span class="px-4 py-2 text-lg font-medium min-w-[3rem] text-center">{{ quantity }}</span>
                     <button 
                       @click="increaseQuantity"
                       :disabled="quantity >= Math.min(10, product.stock)"
-                      class="px-3 py-2 text-gray-600 hover:text-green-600 disabled:text-gray-400 disabled:cursor-not-allowed"
+                      class="px-3 py-2 text-gray-600 hover:text-green-600 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors duration-200"
+                      aria-label="Augmenter la quantité"
                     >
                       <i class="fas fa-plus"></i>
                     </button>
@@ -137,26 +143,25 @@
               </div>
 
               <!-- Actions -->
-              <div v-if="product.stock > 0" class="flex space-x-4 pt-6 border-t">
+              <div v-if="product.stock > 0" class="flex flex-col sm:flex-row gap-4 pt-6 border-t">
                 <button
-                    v-if="product.stock > 0"
-                   @click.stop="handleAddToCart(product)"
-                    
-                    class="flex-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                  @click.stop="handleAddToCart"
+                  :disabled="loading"
+                  class="flex-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center justify-center"
                 >
                   <i class="fas fa-shopping-cart mr-2"></i>
-                  Ajouter aun panier
+                  <span v-if="loading">Ajout en cours...</span>
+                  <span v-else>Ajouter au panier</span>
                 </button>
                 
                 <button
-                  v-if="product.stock > 0"
-    
-                   @click.stop="handleBuyNow(product)"
-                  
-                  class="flex-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 shadow-md"
+                  @click.stop="handleBuyNow"
+                  :disabled="loading"
+                  class="flex-1 bg-green-700 hover:bg-green-800 disabled:bg-gray-400 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 shadow-md flex items-center justify-center"
                 >
                   <i class="fas fa-bolt mr-2"></i>
-                  Acheter maintenant
+                  <span v-if="loading">Traitement...</span>
+                  <span v-else>Acheter maintenant</span>
                 </button>
               </div>
 
@@ -177,12 +182,13 @@
     <!-- Toast de notification -->
     <div 
       v-if="toast.show"
-      class="fixed top-4 right-4 z-60 bg-white border border-gray-200 rounded-lg shadow-lg p-4 max-w-sm"
+      class="fixed top-4 right-4 z-60 bg-white border border-gray-200 rounded-lg shadow-lg p-4 max-w-sm transition-all duration-300"
+      :class="toast.show ? 'animate-fade-in' : 'animate-fade-out'"
     >
       <div class="flex items-center space-x-3">
-        <i :class="toast.type === 'success' ? 'fas fa-check-circle text-green-500' : 'fas fa-exclamation-circle text-red-500'"></i>
-        <span class="text-gray-800">{{ toast.message }}</span>
-        <button @click="toast.show = false" class="text-gray-400 hover:text-gray-600">
+        <i :class="toast.type === 'success' ? 'fas fa-check-circle text-green-500 text-xl' : 'fas fa-exclamation-circle text-red-500 text-xl'"></i>
+        <span class="text-gray-800 flex-1">{{ toast.message }}</span>
+        <button @click="toast.show = false" class="text-gray-400 hover:text-gray-600 transition-colors duration-200">
           <i class="fas fa-times"></i>
         </button>
       </div>
@@ -191,22 +197,17 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { router } from '@inertiajs/vue3'
-const auth = ref({ user: null })
+import axios from 'axios'
 
 const props = defineProps({
   show: { type: Boolean, default: false },
   product: { type: Object, default: null },
-  auth: { type: Object, default: null },
   user: { type: Object, default: null },
 })
-// Emits
-const isAuthenticated = () => {
-   return props.user && props.user.id;
-   };
 
-const emit = defineEmits([ 'add-to-cart', 'buy-now','close'])
+const emit = defineEmits(['close'])
 
 // État local
 const loading = ref(false)
@@ -219,31 +220,46 @@ const toast = ref({
   type: 'success'
 })
 
+// Computed
+const isAuthenticated = computed(() => {
+  return props.user && props.user.id
+})
+
+const maxQuantity = computed(() => {
+  return props.product ? Math.min(10, props.product.stock) : 1
+})
+
 // Watchers
 watch(() => props.product, (newProduct) => {
   if (newProduct) {
-    quantity.value = 1
-    selectedColor.value = null
-    selectedSize.value = null
+    resetSelections()
     
     // Sélectionner automatiquement la première couleur si disponible
     if (newProduct.colors && newProduct.colors.length > 0) {
       selectedColor.value = newProduct.colors[0]
+    }
+    
+    // Sélectionner automatiquement la première taille si disponible
+    if (newProduct.size && newProduct.size.length > 0) {
+      selectedSize.value = newProduct.sizes[0]
     }
   }
 }, { immediate: true })
 
 // Méthodes
 const closeModal = () => {
+  resetSelections()
   emit('close')
 }
 
-
-
-
+const resetSelections = () => {
+  quantity.value = 1
+  selectedColor.value = null
+  selectedSize.value = null
+}
 
 const increaseQuantity = () => {
-  if (quantity.value < Math.min(10, props.product?.stock || 0)) {
+  if (quantity.value < maxQuantity.value) {
     quantity.value++
   }
 }
@@ -252,49 +268,100 @@ const decreaseQuantity = () => {
   if (quantity.value > 1) {
     quantity.value--
   }
-};
+}
 
-const handleAddToCart = (product) => { 
-  if (!isAuthenticated()) { 
-    // Rediriger vers la page de login 
-    router.visit('/login');
-   return; 
-   }
-   
-   const cartData = {
-     productId: product.id,
-     quantity: quantity.value,
-     color: selectedColor.value,
-     size: selectedSize.value
-   };
-   
-   console.log('Données envoyées au panier:', cartData);
-   
-   // Émettre l'événement pour l'ajout au panier avec toutes les options sélectionnées
-   emit('add-to-cart', cartData);
-   
-   // Afficher un toast de confirmation
-   showToast(`${quantity.value} article(s) ajouté(s) au panier !`);
-};
+const formatPrice = (price) => {
+  return new Intl.NumberFormat('sn-SN', {
+    style: 'currency',
+    currency: 'XOF'
+  }).format(price)
+}
 
-const handleBuyNow = (product) => {
-   if (!isAuthenticated()) { 
-    // Rediriger vers la page de login 
-    router.visit('/login');
-   return; 
-   }
-   
-   // Émettre l'événement buy-now avec toutes les options sélectionnées
-   emit('buy-now', {
-     productId: product.id,
-     quantity: quantity.value,
-     color: selectedColor.value,
-     size: selectedSize.value
-   });
-   
-   // Fermer la modal après l'achat
-   closeModal();
-};
+const handleAddToCart = async () => { 
+  if (!isAuthenticated.value) { 
+    router.visit('/login')
+    return
+  }
+
+  if (!validateSelections()) {
+    return
+  }
+
+  loading.value = true
+
+  try {
+    const cartData = {
+      product_id: props.product.id,
+      quantity: quantity.value,
+      color: selectedColor.value?.name || null,
+      size: selectedSize.value || null
+    }
+
+    // Utiliser axios qui gère automatiquement le CSRF token
+    await axios.post('/api/cart/add', cartData)
+     
+ 
+    // Rafraîchir les données du panier dans le FloatingCart
+    window.dispatchEvent(new CustomEvent('cart-updated'))
+      
+  } catch (error) {
+    console.error('Erreur:', error)
+    const errorMessage = error.response?.data?.message || error.message || 'Erreur lors de l\'ajout au panier'
+    showToast(errorMessage, 'error')
+  } finally {
+    loading.value = false
+  }
+}
+
+const handleBuyNow = async () => {
+  if (!isAuthenticated.value) { 
+    router.visit('/login')
+    return
+  }
+
+  if (!validateSelections()) {
+    return
+  }
+
+  loading.value = true
+
+  try {
+    const cartData = {
+      product_id: props.product.id,
+      quantity: quantity.value,
+      color: selectedColor.value?.name || null,
+      size: selectedSize.value || null
+    }
+
+    // Utiliser axios qui gère automatiquement le CSRF token
+    await axios.post('/api/cart/add', cartData)
+    
+    // Rediriger vers la page de commande après ajout réussi
+    router.visit('/checkout')
+      
+  } catch (error) {
+    console.error('Erreur:', error)
+    const errorMessage = error.response?.data?.message || error.message || 'Erreur lors de l\'achat'
+    showToast(errorMessage, 'error')
+  } finally {
+    loading.value = false
+  }
+}
+
+const validateSelections = () => {
+  if (props.product.colors && props.product.colors.length > 0 && !selectedColor.value) {
+    showToast('Veuillez sélectionner une couleur', 'error')
+    return false
+  }
+
+  if (props.product.sizes && props.product.sizes.length > 0 && !selectedSize.value) {
+    showToast('Veuillez sélectionner une taille', 'error')
+    return false
+  }
+
+  return true
+}
+
 const showToast = (message, type = 'success') => {
   toast.value = {
     show: true,
@@ -302,7 +369,6 @@ const showToast = (message, type = 'success') => {
     type
   }
   
-  // Auto-hide après 3 secondes
   setTimeout(() => {
     toast.value.show = false
   }, 3000)

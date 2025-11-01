@@ -76,9 +76,16 @@
                 </div>
               </div>
             </div>
+             <div v-if="cartItems.length ==! 0" class="text-center py-8">
+              <div class="text-4xl mb-4">🛒</div>
+              <p class="text-gray-500"> </p>
+              <Link :href="route('cart')" class="text-blue-600 hover:text-blue-800 mt-2 inline-block">Retour au panier</Link>
+            </div>
+      </div>
           </div>
         </div>
-      </div>
+
+           
     </main>
   </div>
 </template>
@@ -160,6 +167,7 @@ const submitOrder = async () => {
     loading.value = false
   }
 }
-
-onMounted(() => fetchCartItems())
+onMounted(() => {
+  fetchCartItems()
+})
 </script>

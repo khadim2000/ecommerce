@@ -93,10 +93,7 @@
     <ProductDetailModal 
       :show="modalVisible" 
       :product="selectedProduct" 
-      :auth="auth"
-     
-  @add-to-cart="handleAddToCart"
-  @buy-now="handleBuyNow"
+      :user="user"
       @close="modalVisible = false"
     />
   </div>
@@ -109,8 +106,6 @@ import ProductDetailModal from './ProductDetailModal.vue'
 
 const modalVisible = ref(false)
 const selectedProduct = ref(null)
-const auth = ref({ user: null })
-const showCart = ref(false)
 
 const openModal = (product) => {
   selectedProduct.value = product

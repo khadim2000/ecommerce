@@ -121,28 +121,7 @@
                 </span>
               </button>
 
-              <!-- Méthodes de paiement acceptées -->
-              <div class="mt-4 pt-4 border-t border-gray-200">
-                <p class="text-xs text-gray-500 mb-2">Moyens de paiement acceptés :</p>
-                <div class="flex items-center space-x-2">
-                  <div class="flex items-center space-x-1 bg-orange-100 px-2 py-1 rounded text-xs">
-                    <img src="/images/payment/orange-money.svg" alt="Orange Money" class="w-4 h-4" />
-                    <span class="text-orange-700">Orange</span>
-                  </div>
-                  <div class="flex items-center space-x-1 bg-blue-100 px-2 py-1 rounded text-xs">
-                    <img src="/images/payment/wave.svg" alt="Wave" class="w-4 h-4" />
-                    <span class="text-blue-700">Wave</span>
-                  </div>
-                  <div class="flex items-center space-x-1 bg-blue-100 px-2 py-1 rounded text-xs">
-                    <img src="/images/payment/visa.svg" alt="Visa" class="w-4 h-4" />
-                    <span class="text-blue-700">Visa</span>
-                  </div>
-                  <div class="flex items-center space-x-1 bg-green-100 px-2 py-1 rounded text-xs">
-                    <i class="fas fa-truck text-green-500"></i>
-                    <span class="text-green-700">Cash</span>
-                  </div>
-                </div>
-              </div>
+              
               
               <Link 
                 :href="route('dashboard')" 
@@ -180,95 +159,57 @@ const formatPrice = (price) => {
     currency: 'XOF' // FCFA correspond au code XOF
   }).format(price)
 }
+
 const getColorHex = (colorName) => {
-  // Mapping complet des couleurs
+  // Mapping des noms de couleurs vers leurs codes hex
   const colorMap = {
-    // Couleurs primaires
     'Rouge': '#FF0000',
     'Bleu': '#0000FF',
     'Vert': '#00FF00',
     'Jaune': '#FFFF00',
-    
-    // Couleurs secondaires
     'Orange': '#FFA500',
     'Violet': '#800080',
     'Rose': '#FFC0CB',
     'Cyan': '#00FFFF',
-    
-    // Couleurs neutres
     'Noir': '#000000',
     'Blanc': '#FFFFFF',
     'Gris': '#808080',
     'Gris foncé': '#404040',
     'Gris clair': '#C0C0C0',
-    
-    // Couleurs terre
     'Marron': '#8B4513',
     'Beige': '#F5F5DC',
     'Crème': '#FFFDD0',
     'Taupe': '#8B7D6B',
-    
-    // Bleus variés
     'Bleu marine': '#000080',
     'Bleu ciel': '#87CEEB',
     'Bleu turquoise': '#40E0D0',
     'Bleu royal': '#4169E1',
     'Bleu acier': '#4682B4',
-    
-    // Rouges variés
     'Rouge foncé': '#8B0000',
     'Rouge bordeaux': '#800020',
     'Rouge cerise': '#DE3163',
     'Rouge corail': '#FF7F50',
     'Rouge tomate': '#FF6347',
-    
-    // Verts variés
     'Vert foncé': '#006400',
-    'Vert lime': '#32CD32',
+    'Vert citron': '#32CD32',
     'Vert menthe': '#98FB98',
     'Vert olive': '#808000',
-    'Vert émeraude': '#50C878',
-    'Vert forêt': '#228B22',
-    
-    // Violets variés
-    'Violet foncé': '#4B0082',
-    'Lavande': '#E6E6FA',
-    'Mauve': '#E0B0FF',
-    'Indigo': '#4B0082',
-    
-    // Jaunes variés
-    'Jaune doré': '#FFD700',
-    'Jaune citron': '#FFFACD',
-    'Jaune moutarde': '#FFDB58',
-    'Jaune canari': '#FFFF99',
-    
-    // Oranges variés
-    'Orange foncé': '#FF8C00',
-    'Orange pêche': '#FFCCCB',
-    'Orange abricot': '#FBCEB1',
-    'Orange mandarine': '#F28500',
-    
-    // Couleurs métalliques
-    'Or': '#FFD700',
-    'Argent': '#C0C0C0',
-    'Bronze': '#CD7F32',
-    'Cuivre': '#B87333',
-    
-    // Couleurs pastel
-    'Rose pastel': '#FFB6C1',
-    'Bleu pastel': '#ADD8E6',
-    'Vert pastel': '#98FB98',
-    'Violet pastel': '#DDA0DD',
-    'Jaune pastel': '#FFFFE0',
-    
-    // Couleurs spéciales
-    'Magenta': '#FF00FF',
+    'Vert sauge': '#9CAF88',
+    'Doré': '#FFD700',
+    'Argenté': '#C0C0C0',
+    'Bordeaux': '#800020',
+    'Kaki': '#F0E68C',
     'Turquoise': '#40E0D0',
-    'Sarcelle': '#008080',
-    'Fuchsia': '#FF00FF',
-    'Chartreuse': '#7FFF00'
+    'Corail': '#FF7F50',
+    'Lavande': '#E6E6FA',
+    'Pêche': '#FFDAB9',
+    'Magenta': '#FF00FF',
+    'Indigo': '#4B0082',
+    'Ambre': '#FFBF00',
+    'Émeraude': '#50C878'
   }
-  return colorMap[colorName] || '#CCCCCC'
+  
+  return colorMap[colorName] || '#808080' // Gris par défaut si la couleur n'est pas trouvée
 }
 
 const fetchCartItems = async () => {

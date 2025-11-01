@@ -122,7 +122,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 import axios from 'axios'
 
@@ -130,6 +130,11 @@ const showCart = ref(false)
 const cartItems = ref([])
 const loading = ref(false)
 const removingItem = ref(null)
+
+// Handler pour l'événement cart-updated
+const handleCartUpdated = () => {
+  fetchCartItems()
+}
 
 // Computed properties
 const cartItemCount = computed(() => {
@@ -192,7 +197,9 @@ const formatPrice = (price) => {
     currency: 'XOF' // FCFA correspond au code XOF
   }).format(price)
 }
+
 const getColorHex = (colorName) => {
+  // Mapping des noms de couleurs vers leurs codes hex
   const colorMap = {
     'Rouge': '#FF0000',
     'Bleu': '#0000FF',
@@ -201,30 +208,55 @@ const getColorHex = (colorName) => {
     'Orange': '#FFA500',
     'Violet': '#800080',
     'Rose': '#FFC0CB',
+    'Cyan': '#00FFFF',
     'Noir': '#000000',
     'Blanc': '#FFFFFF',
     'Gris': '#808080',
-    'Marron': '#A52A2A',
+    'Gris foncé': '#404040',
+    'Gris clair': '#C0C0C0',
+    'Marron': '#8B4513',
     'Beige': '#F5F5DC',
+    'Crème': '#FFFDD0',
+    'Taupe': '#8B7D6B',
+    'Bleu marine': '#000080',
+    'Bleu ciel': '#87CEEB',
+    'Bleu turquoise': '#40E0D0',
+    'Bleu royal': '#4169E1',
+    'Bleu acier': '#4682B4',
+    'Rouge foncé': '#8B0000',
+    'Rouge bordeaux': '#800020',
+    'Rouge cerise': '#DE3163',
+    'Rouge corail': '#FF7F50',
+    'Rouge tomate': '#FF6347',
+    'Vert foncé': '#006400',
+    'Vert citron': '#32CD32',
+    'Vert menthe': '#98FB98',
+    'Vert olive': '#808000',
+    'Vert sauge': '#9CAF88',
+    'Doré': '#FFD700',
+    'Argenté': '#C0C0C0',
+    'Bordeaux': '#800020',
+    'Kaki': '#F0E68C',
     'Turquoise': '#40E0D0',
-    'Indigo': '#4B0082',
-    'Cyan': '#00FFFF',
+    'Corail': '#FF7F50',
+    'Lavande': '#E6E6FA',
+    'Pêche': '#FFDAB9',
     'Magenta': '#FF00FF',
-    'Lime': '#00FF00',
-    'Or': '#FFD700',
-    'Argent': '#C0C0C0',
-    'Bronze': '#CD7F32'
+    'Indigo': '#4B0082',
+    'Ambre': '#FFBF00',
+    'Émeraude': '#50C878'
   }
-  return colorMap[colorName] || '#CCCCCC'
+  
+  return colorMap[colorName] || '#808080' // Gris par défaut si la couleur n'est pas trouvée
 }
 
-// Lifecycle
+// Écouter les événements d'ajout au panier et charger le panier initial
 onMounted(() => {
-  fetchCartItems()
+  window.addEventListener('cart-updated', handleCartUpdated)
+  fetchCartItems() // Charger le panier au démarrage
 })
 
-// Écouter les événements d'ajout au panier
-window.addEventListener('cart-updated', () => {
-  fetchCartItems()
+onBeforeUnmount(() => {
+  window.removeEventListener('cart-updated', handleCartUpdated)
 })
 </script>

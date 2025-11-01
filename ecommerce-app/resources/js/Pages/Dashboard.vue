@@ -108,21 +108,11 @@
           @cancel="cancelDelete"
         />
 
-        <!-- Modal de détails du produit -->
-        <ProductDetailModal
-          :show="showProductDetail"
-          :product="selectedProduct"
-          :auth="props.auth"
-          @close="closeProductDetail"
-          @add-to-cart="addToCart"
-          @buy-now="handleBuyNow"
-        />
+        
         
 
       </div>
     </main>
-   <!-- Panier flottant -->
-   <FloatingCart />
 </template>
 <script setup>
 import { ref, computed, watch } from 'vue';
@@ -136,7 +126,6 @@ import ProductEditComplete from "../Components/ProductEditComplete.vue";
 import ProductDetailModal from "../Components/ProductDetailModal.vue";
 import Toast from "../Components/Toast.vue";
 import ErrorBoundary from "../Components/ErrorBoundary.vue";
-import FloatingCart from "../Components/FloatingCart.vue";
 import DeleteConfirmation from "../Components/DeleteConfirmation.vue";
 import axios from 'axios';
 
@@ -317,11 +306,7 @@ async function confirmDelete() {
     if (!productToDelete.value) return;
     isDeletingProduct.value = true;
     const response = await axios.delete(`/admin/products/${productToDelete.value.id}`, {
-      headers: {
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
+   
     });
     if (response.status === 200) {
       // Reload the page to get updated product list
